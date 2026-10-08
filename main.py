@@ -44,7 +44,7 @@ RAW = [
     (27, "USB-C Hub 7-in-1", X, 2299, 2999, 4.5, 187, "POPULAR", U("photo-1625842268584-8f3296236761"), "Multi-port USB-C hub for laptops and modern devices."),
     (28, "Wireless Power Bank", X, 2999, 3999, 4.4, 231, "HOT", U("photo-1609592424854-5a8b2c7a8d4e"), "Portable power bank for convenient wireless and wired charging."),
     (29, "Premium Phone Case", X, 799, 1299, 4.3, 648, "SALE", U("photo-1601593346740-925612772716"), "Premium protective phone case with a stylish design."),
-    (30, "4K Action Camera", X, 15999, 18999, 4.6, 119, "NEW", U("photo-1516035069371-29a1b244cc32"), "Compact 4K action camera for travel, adventure and video recording."),
+    (30, "4K Action Camera", X, 15999, 18999, 4.6, 119, "NEW", U("https://static1.industrybuying.com/products/security/cctv-cameras/wifi-camera/SEC.WIF.724089633_1703760821062.webp"), "Compact 4K action camera for travel, adventure and video recording."),
 ]
 KEYS = ("id", "name", "category", "price", "old", "rating", "reviews", "badge", "img", "desc")
 PRODUCTS = [dict(zip(KEYS, r)) for r in RAW]
