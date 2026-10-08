@@ -1,4 +1,3 @@
-"""Gadget Hub - an electronics store app written only in Python (Flet 0.28.3)."""
 import hashlib, json, os, re, secrets
 from datetime import datetime
 import flet as ft
@@ -8,7 +7,6 @@ U = lambda i: f"https://images.unsplash.com/{i}?auto=format&fit=crop&w=800&q=80"
 S, L, A, G, W_, X = "Smartphones", "Laptops", "Audio", "Gaming", "Wearables", "Accessories"
 
 # (id, name, category, price, old price, rating, reviews, badge, image URL, description)
-# To change a picture, replace the image URL. An empty "" shows a placeholder.
 RAW = [
     (1, "Samsung Galaxy S25", S, 74999, 79999, 4.8, 245, "BEST SELLER", "https://images.samsung.com/is/image/samsung/p6pim/in/feature/165835044/in-feature-galaxy-s25-s931-544962134?$FB_TYPE_A_MO_JPG$", "Premium flagship smartphone with powerful performance and an advanced camera."),
     (2, "iPhone 16 Pro", S, 119999, 124999, 4.9, 512, "PREMIUM", "https://rukminim3.flixcart.com/image/480/640/xif0q/mobile/o/o/9/-resized-original-imahggev6y5zhbjz.jpeg?q=90", "Premium smartphone with a powerful processor, pro camera system and stunning display."),
@@ -25,26 +23,26 @@ RAW = [
     (9, "Lenovo IdeaPad Plus", L, 184000, 189999, 4.6, 121, "NEW", "https://m.media-amazon.com/images/I/81Ev2S5nrVL.jpg", "Modern performance laptop with a premium design and strong multitasking."),
     (10, "Acer Nitro Gaming", L, 82999, 89999, 4.8, 209, "GAMING", "", "Gaming laptop built for demanding games and high-performance multitasking."),
     (104, "Acer Aspire 5", L, 73990, 99999, 4.6, 121, "NEW", "https://media-ik.croma.com/Croma%20Assets/Computers%20Peripherals/Laptop/Images/323615_0_uEVNRr5R8Y.png?updatedAt=1783326915036&tr=w-360", "Modern performance laptop with a premium design and strong multitasking."),
-    (11, "Sony WH-1000XM5", A, 29999, 34999, 4.9, 421, "BEST SELLER", U("photo-1505740420928-5e560c06d30e"), "Premium wireless headphones with powerful sound and noise cancellation."),
-    (12, "Apple AirPods Pro", A, 24999, 26999, 4.8, 389, "POPULAR", U("photo-1600294037681-c80b4cb5b434"), "Premium wireless earbuds with active noise cancellation and immersive sound."),
-    (13, "JBL Tune 770NC", A, 5999, 7999, 4.6, 287, "VALUE", U("photo-1484704849700-f032a568e944"), "Comfortable wireless headphones with noise cancellation and long battery life."),
-    (14, "Boat Airdopes Elite", A, 2499, 3499, 4.4, 632, "HOT", U("photo-1590658268037-6bf12165a8df"), "Affordable true wireless earbuds for music, calls and entertainment."),
-    (15, "Bose SoundLink Speaker", A, 14999, 16999, 4.7, 178, "PREMIUM", U("photo-1608043152269-423dbba4e7e1"), "Portable Bluetooth speaker with rich, powerful audio."),
-    (16, "PlayStation 5", G, 54999, 59999, 4.9, 516, "BEST SELLER", U("photo-1606813907291-d86efa9b94db"), "Next-generation console for immersive gaming and high-quality graphics."),
-    (17, "Xbox Series X", G, 52999, 57999, 4.8, 321, "POPULAR", U("photo-1621259182978-fbf93132d53d"), "Powerful console with fast performance and high-quality gaming."),
-    (18, "Gaming RGB Keyboard", G, 3499, 4999, 4.6, 215, "SALE", U("photo-1587829741301-dc798b83add3"), "Mechanical gaming keyboard with RGB lighting and responsive keys."),
-    (19, "Pro Gaming Mouse", G, 2499, 3299, 4.7, 194, "HOT", U("photo-1527814050087-3793815479db"), "High-precision gaming mouse with an ergonomic design."),
-    (20, "Gaming Headset RGB", G, 3999, 4999, 4.5, 143, "GAMING", U("photo-1599669454699-248893623440"), "Gaming headset with immersive audio, microphone and RGB lighting."),
-    (21, "Apple Watch Series 11", W_, 46999, 49999, 4.8, 278, "PREMIUM", U("photo-1546868871-7041f2a55e12"), "Premium smartwatch with notifications, fitness features and modern design."),
-    (22, "Samsung Galaxy Watch", W_, 29999, 34999, 4.7, 196, "POPULAR", U("photo-1523275335684-37898b6baf30"), "Smartwatch with health tracking, fitness features and stylish design."),
-    (23, "Fitbit Charge", W_, 11999, 14999, 4.5, 157, "FITNESS", U("photo-1575311373937-040b8e1fd5b6"), "Fitness tracker for activity monitoring, workouts and health goals."),
-    (24, "Amazfit Active", W_, 8999, 10999, 4.4, 143, "VALUE", U("photo-1508685096489-7aacd43bd3b1"), "Affordable smartwatch with fitness tracking and smart features."),
-    (25, "Smart Fitness Band", W_, 1999, 2999, 4.3, 412, "SALE", U("photo-1557935728-e6d1eaabe558"), "Lightweight fitness band for steps, activity and daily notifications."),
-    (26, "65W Fast Charger", X, 1499, 1999, 4.6, 523, "VALUE", U("photo-1625842268584-8f3296236761"), "Compact fast charger for smartphones, tablets and compatible devices."),
-    (27, "USB-C Hub 7-in-1", X, 2299, 2999, 4.5, 187, "POPULAR", U("photo-1625842268584-8f3296236761"), "Multi-port USB-C hub for laptops and modern devices."),
-    (28, "Wireless Power Bank", X, 2999, 3999, 4.4, 231, "HOT", U("photo-1609592424854-5a8b2c7a8d4e"), "Portable power bank for convenient wireless and wired charging."),
-    (29, "Premium Phone Case", X, 799, 1299, 4.3, 648, "SALE", U("photo-1601593346740-925612772716"), "Premium protective phone case with a stylish design."),
-    (30, "4K Action Camera", X, 15999, 18999, 4.6, 119, "NEW", U("https://static1.industrybuying.com/products/security/cctv-cameras/wifi-camera/SEC.WIF.724089633_1703760821062.webp"), "Compact 4K action camera for travel, adventure and video recording."),
+    (11, "Sony WH-1000XM5", A, 29999, 34999, 4.9, 421, "BEST SELLER", "photo-1505740420928-5e560c06d30e", "Premium wireless headphones with powerful sound and noise cancellation."),
+    (12, "Apple AirPods Pro", A, 24999, 26999, 4.8, 389, "POPULAR", "photo-1600294037681-c80b4cb5b434", "Premium wireless earbuds with active noise cancellation and immersive sound."),
+    (13, "JBL Tune 770NC", A, 5999, 7999, 4.6, 287, "VALUE", "photo-1484704849700-f032a568e944", "Comfortable wireless headphones with noise cancellation and long battery life."),
+    (14, "Boat Airdopes Elite", A, 2499, 3499, 4.4, 632, "HOT", "photo-1590658268037-6bf12165a8df", "Affordable true wireless earbuds for music, calls and entertainment."),
+    (15, "Bose SoundLink Speaker", A, 14999, 16999, 4.7, 178, "PREMIUM", "photo-1608043152269-423dbba4e7e1", "Portable Bluetooth speaker with rich, powerful audio."),
+    (16, "PlayStation 5", G, 54999, 59999, 4.9, 516, "BEST SELLER", "photo-1606813907291-d86efa9b94db", "Next-generation console for immersive gaming and high-quality graphics."),
+    (17, "Xbox Series X", G, 52999, 57999, 4.8, 321, "POPULAR", "photo-1621259182978-fbf93132d53d", "Powerful console with fast performance and high-quality gaming."),
+    (18, "Gaming RGB Keyboard", G, 3499, 4999, 4.6, 215, "SALE", "photo-1587829741301-dc798b83add3", "Mechanical gaming keyboard with RGB lighting and responsive keys."),
+    (19, "Pro Gaming Mouse", G, 2499, 3299, 4.7, 194, "HOT", "photo-1527814050087-3793815479db", "High-precision gaming mouse with an ergonomic design."),
+    (20, "Gaming Headset RGB", G, 3999, 4999, 4.5, 143, "GAMING", "photo-1599669454699-248893623440", "Gaming headset with immersive audio, microphone and RGB lighting."),
+    (21, "Apple Watch Series 11", W_, 46999, 49999, 4.8, 278, "PREMIUM", "https://m.media-amazon.com/images/I/71roT3lDUvL._AC_UF894,1000_QL80_.jpg", "Premium smartwatch with notifications, fitness features and modern design."),
+    (22, "Samsung Galaxy Watch", W_, 29999, 34999, 4.7, 196, "POPULAR", "https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/24435058/2023/8/14/5e0fb72d-aa26-4de7-999a-199e01ed1df21691985473864SamsungGalaxyWatch6LTE44mmSilverCompatiblewithAndroidonly1.jpg", "Smartwatch with health tracking, fitness features and stylish design."),
+    (23, "Fitbit Charge", W_, 11999, 14999, 4.5, 157, "FITNESS", "https://m.media-amazon.com/images/I/51KJ3Pe2w5L.jpg", "Fitness tracker for activity monitoring, workouts and health goals."),
+    (24, "Amazfit Active", W_, 8999, 10999, 4.4, 143, "VALUE", "https://m.media-amazon.com/images/I/61eLhGc40TL._AC_UF1000,1000_QL80_.jpg", "Affordable smartwatch with fitness tracking and smart features."),
+    (25, "Smart Fitness Band", W_, 1999, 2999, 4.3, 412, "SALE", "https://m.media-amazon.com/images/I/61KpySHjUYL._AC_UF1000,1000_QL80_.jpg", "Lightweight fitness band for steps, activity and daily notifications."),
+    (26, "65W Fast Charger", X, 1499, 1999, 4.6, 523, "VALUE", "https://m.media-amazon.com/images/I/51Lb0lChR3L._SL1500_.jpg", "Compact fast charger for smartphones, tablets and compatible devices."),
+    (27, "USB-C Hub 7-in-1", X, 2299, 2999, 4.5, 187, "POPULAR", "https://m.media-amazon.com/images/I/61tPYsj5cGL._SX522_.jpg", "Multi-port USB-C hub for laptops and modern devices."),
+    (28, "Wireless Power Bank", X, 2999, 3999, 4.4, 231, "HOT", "https://www.ugreenindia.com/cdn/shop/files/51_L-fiALcL._AC_SL1500.jpg?v=1763828011&width=1125", "Portable power bank for convenient wireless and wired charging."),
+    (29, "Premium Phone Case", X, 799, 1299, 4.3, 648, "SALE", "https://millioncases.com/cdn/shop/files/Untitled_Instagram_Post_45_1.jpg?v=1774600640&width=1200", "Premium protective phone case with a stylish design."),
+    (30, "4K Action Camera", X, 15999, 18999, 4.6, 119, "NEW", "https://static1.industrybuying.com/products/security/cctv-cameras/wifi-camera/SEC.WIF.724089633_1703760821062.webp", "Compact 4K action camera for travel, adventure and video recording."),
 ]
 KEYS = ("id", "name", "category", "price", "old", "rating", "reviews", "badge", "img", "desc")
 PRODUCTS = [dict(zip(KEYS, r)) for r in RAW]
