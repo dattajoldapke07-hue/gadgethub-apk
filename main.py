@@ -520,7 +520,7 @@ def main(page: ft.Page):
         T("Your destination for smart technology, electronics and digital lifestyle products.", 12, color="#94a3b8"),
         ft.Row([link("My Orders", show_orders), link("Cart", open_cart), link("Wishlist", show_wishlist),
                 link("Account", open_account)], wrap=True, spacing=0),
-        T("📧 support@gadgethub.com   📞 +91 90000 00000   📍 Pune, Maharashtra", 12, color="#94a3b8"),
+        T("📧 support@gadgethub.com   📞 +91 9561560448  📍 Pune, Maharashtra", 12, color="#94a3b8"),
         ft.Divider(height=1, color="#1e293b"), T("© 2026 Gadget Hub. All rights reserved.", 11, color="#64748b"),
     ], spacing=10), bgcolor="#0b1120", padding=ft.padding.symmetric(horizontal=20, vertical=30))
 
