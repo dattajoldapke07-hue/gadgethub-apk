@@ -119,7 +119,7 @@ def main(page: ft.Page):
     def field(label, **k):
         return ft.TextField(label=label, border_radius=9, dense=True, **k)
 
-    def ph():
+     def ph():
         return ft.Container(T("📷", 34), alignment=ft.alignment.center, bgcolor="#f1f5f9")
 
    def img(p, w=None, h=None):
@@ -128,6 +128,20 @@ def main(page: ft.Page):
     if not src:
         return ph()
 
+    # Unsplash ke short image IDs ko full URL mein convert karein
+    if src.startswith("photo-"):
+        src = (
+            f"https://images.unsplash.com/{src}"
+            "?auto=format&fit=max&w=900&q=90"
+        )
+
+    return ft.Image(
+        src=src,
+        width=w,
+        height=h,
+        fit=ft.ImageFit.CONTAIN,
+        error_content=ph(),
+    )
     # Unsplash ke short image IDs ko full URL mein convert karein
     if src.startswith("photo-"):
         src = (
