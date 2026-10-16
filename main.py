@@ -122,11 +122,26 @@ def main(page: ft.Page):
     def ph():
         return ft.Container(T("📷", 34), alignment=ft.alignment.center, bgcolor="#f1f5f9")
 
-    def img(p, w=None, h=None):
-        if not p["img"]:
-            return ph()
-        return ft.Image(src=p["img"], width=w, height=h, fit=ft.ImageFit.COVER, error_content=ph())
+   def img(p, w=None, h=None):
+    src = p.get("img", "")
 
+    if not src:
+        return ph()
+
+    # Unsplash ke short image IDs ko full URL mein convert karein
+    if src.startswith("photo-"):
+        src = (
+            f"https://images.unsplash.com/{src}"
+            "?auto=format&fit=max&w=900&q=90"
+        )
+
+    return ft.Image(
+        src=src,
+        width=w,
+        height=h,
+        fit=ft.ImageFit.CONTAIN,
+        error_content=ph(),
+    )
     def close():
         if cur["dlg"]:
             page.close(cur["dlg"])
