@@ -189,7 +189,7 @@ def main(page: ft.Page):
             ft.IconButton(ft.Icons.FAVORITE if liked else ft.Icons.FAVORITE_BORDER, icon_size=18, right=2, top=2,
                           icon_color="#ef4444" if liked else MUTED, bgcolor="white",
                           on_click=lambda e, i=p["id"]: toggle_wish(i)),
-        ], height=130)
+        ], height=200)
         add = ft.ElevatedButton("Add to Cart", expand=True, on_click=lambda e, i=p["id"]: add_cart(i),
                                 style=ft.ButtonStyle(bgcolor=DARK, color="white", shape=ft.RoundedRectangleBorder(radius=8)))
         body = ft.Container(ft.Column([
