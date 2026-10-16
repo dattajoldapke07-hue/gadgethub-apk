@@ -183,7 +183,17 @@ def main(page: ft.Page):
     def card(p):
         liked = p["id"] in db["wish"]
         top = ft.Stack([
-            ft.Container(img(p), left=0, right=0, top=0, bottom=0, on_click=lambda e, p=p: quick(p)),
+           ft.Container(
+    img(p),
+    left=0,
+    right=0,
+    top=0,
+    bottom=0,
+    bgcolor="white",
+    alignment=ft.alignment.center,
+    padding=8,
+    on_click=lambda e, p=p: quick(p),
+),
             ft.Container(T(p["badge"], 9, True, "white"), bgcolor=DARK, border_radius=5, left=8, top=8,
                          padding=ft.padding.symmetric(horizontal=7, vertical=4)),
             ft.IconButton(ft.Icons.FAVORITE if liked else ft.Icons.FAVORITE_BORDER, icon_size=18, right=2, top=2,
